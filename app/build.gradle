@@ -1,0 +1,38 @@
+plugins {
+    id 'idea'
+    id 'java'
+    id 'io.freefair.lombok' version '8.1.0'
+    id 'signing'
+    id 'java-library'
+    id 'maven-publish'
+}
+
+ext {
+    artifactId = 'drama'
+}
+version = '0.1'
+
+
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation('com.microsoft.playwright:playwright:1.37.0')
+    implementation platform('org.junit:junit-bom:5.9.1')
+    implementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.register('pwServeTraces', JavaExec) {
+    mainClass = 'com.microsoft.playwright.CLI'
+    classpath = sourceSets.main.runtimeClasspath
+    args 'show-trace', 'build/pw/' + System.getProperty("trace") + '.zip'
+    systemProperties = System.getProperties() as Map<String, ?>
+}
