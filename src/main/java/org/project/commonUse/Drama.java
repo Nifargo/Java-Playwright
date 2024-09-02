@@ -2,18 +2,25 @@ package org.project.commonUse;
 
 import com.microsoft.playwright.Locator;
 import org.project.commonUse.enviromentManager.EnvironmentConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static org.project.commonUse.WaitUtils.waitForElement;
 
 public class Drama {
 
+    private static final Logger logger = LoggerFactory.getLogger(Drama.class);
+
+
     public static void open(String url) {
         String baseUrl = EnvironmentConfig.getBaseUrl();
         var targetUrl = url.startsWith("http") ? url : baseUrl+ url;
+        logger.info("Navigating to URL: {}", targetUrl);
         Scene.play().getPage().navigate(targetUrl);
     }
 
     public static LocatorActions find(String selector) {
+        logger.debug("Finding element with selector: {}", selector);
         waitForElement(selector);
         return new LocatorActions(Scene.play().getPage().locator(selector).first());
     }
