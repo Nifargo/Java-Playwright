@@ -30,6 +30,11 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+        showStandardStreams = true
+    }
+    systemProperty 'env', System.getProperty('env', 'preprod')
 }
 
 tasks.register('pwServeTraces', JavaExec) {

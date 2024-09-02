@@ -11,10 +11,9 @@ public class Drama {
 
     private static final Logger logger = LoggerFactory.getLogger(Drama.class);
 
-
     public static void open(String url) {
         String baseUrl = EnvironmentConfig.getBaseUrl();
-        var targetUrl = url.startsWith("http") ? url : baseUrl+ url;
+        var targetUrl = url.startsWith("http") ? url : baseUrl + url;
         logger.info("Navigating to URL: {}", targetUrl);
         Scene.play().getPage().navigate(targetUrl);
     }

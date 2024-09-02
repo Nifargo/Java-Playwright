@@ -1,12 +1,19 @@
 package org.project.commonUse.testRunners;
 
+import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.project.commonUse.Configuration;
 import org.project.commonUse.Scene;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
-public class DramaExtension implements BeforeEachCallback, AfterEachCallback {
+public class DramaExtension implements BeforeEachCallback, AfterEachCallback, BeforeAllCallback {
+
+    @Override
+    public void beforeAll(ExtensionContext context) {
+        String env = System.getProperty("env", "preprod");
+        System.setProperty("env", env);
+    }
 
     @Override
     public void beforeEach(ExtensionContext context) {

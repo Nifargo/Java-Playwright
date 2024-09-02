@@ -1,18 +1,39 @@
 package org.project.commonUse.enviromentManager;
 
-public class EnvironmentConfig {
-    private static final String DEFAULT_ENV = "preprod";
-    private static final String PREPROD_URL = "https://my-preprod.dkv-mobility.com";
-    private static final String DEV_URL = "https://my-dev.dkv-mobility.com";
-    private static final String PROD_URL = "https://my.dkv-mobility.com";
+import lombok.Getter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-    public static String getBaseUrl() {
-        String environment = System.getProperty("env", DEFAULT_ENV);
-        return switch (environment.toLowerCase()) {
-            case "preprod" -> PREPROD_URL;
-            case "dev" -> DEV_URL;
-            case "prod" -> PROD_URL;
-            default -> throw new IllegalArgumentException("Unknown environment: " + environment);
-        };
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
+public class EnvironmentConfig {
+
+    private static final Logger logger = LoggerFactory.getLogger(EnvironmentConfig.class);
+    @Getter
+    private static String baseUrl;
+    private static Properties properties = new Properties();
+
+    static {
+        String env = System.getProperty("env", "preprod");
+        logger.info("Loading environment properties for: {}", env);
+        System.out.println("Environment: " + env);
+        try (InputStream input = EnvironmentConfig.class.getClassLoader().getResourceAsStream("environments.properties")) {
+            if (input == null) {
+                logger.error("Unable to find environments.properties");
+                throw new RuntimeException("Unable to find environments.properties");
+            }
+            properties.load(input);
+            baseUrl = properties.getProperty(env + ".baseUrl");
+            if (baseUrl == null) {
+                logger.error("Base URL for environment {} is not defined", env);
+                throw new RuntimeException("Base URL for environment " + env + " is not defined");
+            }
+            logger.info("Properties loaded successfully for: {}", env);
+        } catch (IOException ex) {
+            logger.error("Error loading environment properties", ex);
+            throw new RuntimeException("Error loading environment properties", ex);
+        }
     }
 }
