@@ -44,6 +44,16 @@ To run a specific test, use:
 ./gradlew test -Denv=prod
 ```
 
+# Generate the Allure report
+```sh
+./gradlew allureReport
+```
+
+# Serve the Allure report
+```sh
+./gradlew allureServe
+```
+
 ## Troubleshooting
 **Deprecated Gradle Features:** If you encounter warnings about deprecated Gradle features, use --warning-mode all to get detailed information.
 **Logging Issues:** Ensure logback.xml is correctly configured and placed in the src/main/resources directory.

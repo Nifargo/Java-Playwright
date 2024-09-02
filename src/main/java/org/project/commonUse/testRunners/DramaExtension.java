@@ -1,5 +1,5 @@
 package org.project.commonUse.testRunners;
-
+import io.qameta.allure.Allure;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.project.commonUse.Configuration;
 import org.project.commonUse.Scene;
@@ -18,6 +18,7 @@ public class DramaExtension implements BeforeEachCallback, AfterEachCallback, Be
     @Override
     public void beforeEach(ExtensionContext context) {
         Scene.initTestContext(Configuration.saveTraces, getTestName(context));
+        Allure.getLifecycle().startTestCase(context.getDisplayName());
     }
 
     @Override
