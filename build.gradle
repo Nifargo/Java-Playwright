@@ -1,7 +1,7 @@
 plugins {
     id 'idea'
     id 'java'
-    id 'io.freefair.lombok' version '8.1.0'
+    id 'io.freefair.lombok' version '8.11'
     id 'signing'
     id 'java-library'
     id 'maven-publish'
@@ -9,7 +9,7 @@ plugins {
 }
 
 ext {
-    artifactId = 'drama'
+    artifactId = 'PlayItRight'
 }
 version = '0.1'
 
@@ -22,13 +22,15 @@ repositories {
 }
 
 dependencies {
+    implementation platform('org.junit:junit-bom:5.10.0')
+    implementation 'org.junit.jupiter:junit-jupiter'
     testImplementation 'io.qameta.allure:allure-junit5:2.17.2'
     testImplementation 'io.qameta.allure:allure-java-commons:2.17.2'
+    implementation 'com.github.automatedowl:allure-environment-writer:1.0.0'
     implementation 'org.slf4j:slf4j-api:1.7.32'
     implementation 'ch.qos.logback:logback-classic:1.4.12'
-    implementation('com.microsoft.playwright:playwright:1.37.0')
-    implementation platform('org.junit:junit-bom:5.9.1')
-    implementation 'org.junit.jupiter:junit-jupiter'
+    implementation('com.microsoft.playwright:playwright:1.48.0')
+    implementation 'org.aeonbits.owner:owner:1.0.12'
 }
 
 test {
@@ -48,6 +50,11 @@ tasks.register('pwServeTraces', JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     args 'show-trace', 'build/pw/' + System.getProperty("trace") + '.zip'
     systemProperties = System.getProperties() as Map<String, ?>
+}
+
+tasks.test {
+    useJUnitPlatform()
+    systemProperty "browser", System.getProperty("browser", "CHROMIUM") // Значення за замовчуванням
 }
 
 allure {

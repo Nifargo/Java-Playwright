@@ -4,13 +4,13 @@ import io.qameta.allure.Description;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.project.commonUse.Drama;
-import org.project.commonUse.testRunners.DramaExtension;
+import org.project.commonUse.PlayItRight.PlayEngine;
+import org.project.commonUse.testRunners.PlayExtensions;
 import org.project.vehicle.VehiclePage;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@ExtendWith(DramaExtension.class)
+@ExtendWith(PlayExtensions.class)
 public class VehicleTest {
 
 
@@ -20,7 +20,7 @@ public class VehicleTest {
 
     public void testBrandVisibility() {
 
-        Drama.open("/next-gen/electric-routes/select-vehicle?redirect=%2Fselect-destination");
+        PlayEngine.open("/next-gen/electric-routes/select-vehicle?redirect=%2Fselect-destination");
 
         VehiclePage vehiclePage = new VehiclePage();
 

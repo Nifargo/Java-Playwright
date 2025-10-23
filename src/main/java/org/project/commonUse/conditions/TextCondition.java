@@ -2,10 +2,10 @@ package org.project.commonUse.conditions;
 
 import com.microsoft.playwright.assertions.LocatorAssertions;
 import lombok.AllArgsConstructor;
-import org.project.commonUse.Configuration;
 import org.project.commonUse.LocatorActions;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
+import static org.project.commonUse.PlayItRight.ConfigManager.config;
 
 @AllArgsConstructor
 public class TextCondition implements Condition {
@@ -16,7 +16,7 @@ public class TextCondition implements Condition {
     public void verify(LocatorActions locatorActions) {
         assertThat(locatorActions.getLocator()).hasText(
                 expectedText,
-                new LocatorAssertions.HasTextOptions().setTimeout(Configuration.defaultTimeout)
+                new LocatorAssertions.HasTextOptions().setTimeout(config().defaultTimeout())
         );
     }
 

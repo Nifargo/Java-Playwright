@@ -1,18 +1,20 @@
-package org.project.commonUse;
+package org.project.commonUse.PlayItRight;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.TimeoutError;
 import com.microsoft.playwright.options.WaitForSelectorState;
+import lombok.experimental.UtilityClass;
 
-public class WaitUtils {
+import static ch.qos.logback.core.spi.ComponentTracker.DEFAULT_TIMEOUT;
 
-    private static final double DEFAULT_TIMEOUT = 15000;
+@UtilityClass
+public class WaitTools {
 
     public static Locator waitForElement(String selector) {
         if (selector == null) {
             throw new IllegalArgumentException("Locator cannot be null");
         }
-        Locator locator = Scene.play().getPage().locator(selector);
+        Locator locator = PlayIt.initBrowser().getPage().locator(selector);
         try {
             locator.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(DEFAULT_TIMEOUT));
         } catch (TimeoutError e) {

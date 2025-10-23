@@ -3,7 +3,7 @@ package org.project.vehicle;
 
 import org.project.commonUse.conditions.Condition;
 
-import static org.project.commonUse.Drama.$;
+import static org.project.commonUse.PlayItRight.PlayEngine.$;
 import static org.project.commonUse.locatorsSettings.WebLocatorWrappers.getLocatorByTypeID;
 import static org.project.commonUse.locatorsSettings.WebTypeElements.BUTTON;
 

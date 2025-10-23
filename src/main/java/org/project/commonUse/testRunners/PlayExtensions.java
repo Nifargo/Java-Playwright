@@ -1,13 +1,15 @@
 package org.project.commonUse.testRunners;
+
 import io.qameta.allure.Allure;
-import org.junit.jupiter.api.extension.BeforeAllCallback;
-import org.project.commonUse.Configuration;
-import org.project.commonUse.Scene;
 import org.junit.jupiter.api.extension.AfterEachCallback;
+import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
+import org.project.commonUse.PlayItRight.PlayIt;
 
-public class DramaExtension implements BeforeEachCallback, AfterEachCallback, BeforeAllCallback {
+import static org.project.commonUse.PlayItRight.ConfigManager.config;
+
+public class PlayExtensions implements BeforeEachCallback, AfterEachCallback, BeforeAllCallback {
 
     @Override
     public void beforeAll(ExtensionContext context) {
@@ -17,13 +19,13 @@ public class DramaExtension implements BeforeEachCallback, AfterEachCallback, Be
 
     @Override
     public void beforeEach(ExtensionContext context) {
-        Scene.initTestContext(Configuration.saveTraces, getTestName(context));
+        PlayIt.initTestContext(config().saveTraces(), getTestName(context));
         Allure.getLifecycle().startTestCase(context.getDisplayName());
     }
 
     @Override
     public void afterEach(ExtensionContext context) {
-        Scene.closeContext(Configuration.saveTraces, getTestName(context));
+        PlayIt.closeContext(config().saveTraces(), getTestName(context));
     }
 
     private String getTestName(ExtensionContext context) {

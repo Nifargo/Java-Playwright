@@ -1,31 +1,30 @@
-package org.project.commonUse;
+package org.project.commonUse.PlayItRight;
 
 import com.microsoft.playwright.Locator;
+import lombok.extern.slf4j.Slf4j;
+import org.project.commonUse.LocatorActions;
 import org.project.commonUse.enviromentManager.EnvironmentConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import static org.project.commonUse.WaitUtils.waitForElement;
+import static org.project.commonUse.PlayItRight.WaitTools.waitForElement;
 
-public class Drama {
-
-    private static final Logger logger = LoggerFactory.getLogger(Drama.class);
+@Slf4j
+public class PlayEngine {
 
     public static void open(String url) {
         String baseUrl = EnvironmentConfig.getBaseUrl();
         var targetUrl = url.startsWith("http") ? url : baseUrl + url;
-        logger.info("Navigating to URL: {}", targetUrl);
-        Scene.play().getPage().navigate(targetUrl);
+        log.info("Navigating to URL: {}", targetUrl);
+        PlayIt.initBrowser().getPage().navigate(targetUrl);
     }
 
     public static LocatorActions find(String selector) {
-        logger.debug("Finding element with selector: {}", selector);
+        log.debug("Finding element with selector: {}", selector);
         waitForElement(selector);
-        return new LocatorActions(Scene.play().getPage().locator(selector).first());
+        return new LocatorActions(PlayIt.initBrowser().getPage().locator(selector).first());
     }
 
     public static LocatorActions find(String selector, String filterWithText) {
-        return new LocatorActions(Scene.play().getPage().locator(selector).filter(
+        return new LocatorActions(PlayIt.initBrowser().getPage().locator(selector).filter(
                 new Locator.FilterOptions().setHasText(filterWithText)
         ).first());
     }
@@ -44,26 +43,26 @@ public class Drama {
     }
 
     public void clearCookies() {
-        Scene.play().getContext().clearCookies();
+        PlayIt.initBrowser().getContext().clearCookies();
     }
 
-    public Drama newTab() {
-        Scene.play().getContext().newPage();
+    public PlayEngine newTab() {
+        PlayIt.initBrowser().getContext().newPage();
         return this;
     }
 
     public void closeCurrentTab() {
-        Scene.play().getPage().close();
+        PlayIt.initBrowser().getPage().close();
     }
 
     public void switchToTab(int index) {
-        var pages = Scene.play().getContext().pages();
+        var pages = PlayIt.initBrowser().getContext().pages();
         if (index >= 0 && index < pages.size()) {
-            Scene.play().setPage(pages.get(index));
+            PlayIt.initBrowser().setPage(pages.get(index));
         }
     }
 
     public String getCurrentUrl() {
-        return Scene.play().getPage().url();
+        return PlayIt.initBrowser().getPage().url();
     }
 }
